@@ -36,3 +36,11 @@ def post(request, id):
         raise Http404("Post does not exist")'''
     post = get_object_or_404(BlogPost, pk=id)
     return render(request, 'mainapp/post.html', {'object': post})
+
+
+def tag_posts(request, name):
+    name = name.lower()
+    title = "Posts about {}".format(name)
+    tag = get_object_or_404(Tag, name=name)
+    posts = BlogPost.objects.filter(tags=tag)
+    render(request, 'mainapp/filtered_post_list.html', {'title': title, 'posts': posts})
